@@ -43,7 +43,7 @@ Admittedly, it is good/quick enough to pick a few resistors and find their relev
 
 ### The Steps
 1. Compute the divider resistor ratio, `k`
-2. Constrain the resistor ratio to \(0,10\] using `log10`.
+2. Constrain the resistor ratio to \[1,10\] using `log10`.
 3. Compute the error ratio error matrix, `d = rtable*k-rtable.T`
 4. Only look at the upper triangular portion of `d`, which is skew-symmetric
 5. Ignore positive, negative, or no error entries, depending on user input
@@ -55,7 +55,7 @@ Admittedly, it is good/quick enough to pick a few resistors and find their relev
 11. Print R1,R2
 
 ### The Math
-Claim: Consider a solved minimum-error resistor ratio pair, R1 and R2. In implementation and in theory, if the ratio is multiplied by 10, the minimum-error R2 stays constant, and the minimum-error R1 is multiplied by 10. 
+Claim: Consider a solved minimum-error resistor ratio pair, R1 and R2. In implementation and in theory, if the ratio is increased by a factor of 10, there exists a minimum-error solution such that R2'=R2 and R1'=10R1.
 
 Proof:
 
@@ -64,7 +64,7 @@ Proof:
 1. Notice that R1 scales with the ratio. That handles the "theory" part nicely
 2. As for practice, resistor values come in "decades," or multiples of 10. For every resistor value listed in a table, a resistor with the same coefficient, but a different order of magnitude is available, e.g. 1.2->12->120->0.0012->etc. Such is the wonder of standard resistor tables.
 
-Corollary: Any minimum-error voltage divider problem can be solved using only the coefficient of the desired resistor ratio represented in scientific notation without loss of generality.
+Corollary: Any minimum-error voltage divider problem can be solved using the coefficient of the desired resistor ratio, as it would appear represented in scientific notation, without loss of generality.
 
 ## Acknowledgements
 The resistor values used in this CLI were downloaded and regex'd from [this electronics-notes.com article](https://www.electronics-notes.com/articles/electronic_components/resistors/standard-resistor-values-e-series-e3-e6-e12-e24-e48-e96.php). Although resistor tables are standardized, the article embedded the values in an html table, which made automating input very easy.
