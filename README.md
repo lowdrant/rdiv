@@ -5,13 +5,14 @@ Standard Table 2-Resistor Divider Calculator
 ### Requirements
 * [numpy](https://numpy.org/install/)
 
-
 See **Under the Hood** for why this uses NumPy. I'm (maybe unfairly) assuming you have NumPY installed if you are using this outside of Circuits 101.
 
 ### Usage
 ```
 usage: Standard Table 2-Resistor Divider Calculator [-h]
                                                     [--table {E12,E24,E48,E96}]
+                                                    [--prefer-over]
+                                                    [--prefer-under]
                                                     Vin Vout
 
 positional arguments:
@@ -22,6 +23,8 @@ optional arguments:
   -h, --help            show this help message and exit
   --table {E12,E24,E48,E96}
                         resistor table, defaults to E12
+  --prefer-over         ignore solutions with lower Vout
+  --prefer-under        ignore solutions with higher Vout
 ```
 
 ## Under the Hood
@@ -41,13 +44,14 @@ Admittedly, it is good/quick enough to pick a few resistors and find their relev
 ### The Steps
 1. Compute the divider resistor ratio, `k`
 2. Constrain the resistor ratio to \(0,10\] using `log10`.
-3. Compute the absolute error ratio error matrix, `d = rtable*k-rtable.T`
+3. Compute the error ratio error matrix, `d = rtable*k-rtable.T`
 4. Only look at the upper triangular portion of `d`
-5. Construct the "best column" - for each row, find the column with least error (N sorts of N<100 floats)
-6. Find the "best row" - the row with least error in the "best column"
-7. The best column index gives R1, and the best row index gives R2
-8. Scale R1 by the the original `k` order of magnitude
-9. Print R1,R2
+5. Ignore 
+6. Construct the "best column" - for each row, find the column with least error (N sorts of N<100 floats)
+7. Find the "best row" - the row with least error in the "best column"
+8. The best column index gives R1, and the best row index gives R2
+9. Scale R1 by the the original `k` order of magnitude
+10. Print R1,R2
 
 ### The Math
 Claim: Consider a solved resistor ratio pair, R1 and R2. In implementation and in theory, if the ratio is multiplied by 10, the optimal R2 stays constant, and the optimal R1 is multiplied by 10. 
@@ -62,8 +66,7 @@ Proof:
 Corollary: Any optimal accuracy voltage divider problem can be solved using only the coefficient of the desired resistor ratio represented in scientific notation without loss of generality.
 
 ## Acknowledgements
-The resistor values used in this CLI were downloaded and regex'd from [this circuits-notes.com article](https://www.electronics-notes.com/articles/electronic_components/resistors/standard-resistor-values-e-series-e3-e6-e12-e24-e48-e96.php). Although resistor tables are standardized, the article embedded the values in an html table, which made automating input very easy.
-
+The resistor values used in this CLI were downloaded and regex'd from [this electronics-notes.com article](https://www.electronics-notes.com/articles/electronic_components/resistors/standard-resistor-values-e-series-e3-e6-e12-e24-e48-e96.php). Although resistor tables are standardized, the article embedded the values in an html table, which made automating input very easy.
 
 ## License
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more details.
