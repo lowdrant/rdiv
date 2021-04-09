@@ -5,7 +5,7 @@ Standard Table 2-Resistor Divider Calculator
 ### Requirements
 * [numpy](https://numpy.org/install/)
 
-See **Under the Hood** for why this uses NumPy. I'm (maybe unfairly) assuming you have NumPY installed if you are using this outside of Circuits 101.
+See **Under the Hood** for why this uses NumPy. I'm (maybe unfairly) assuming you have NumPy installed if you are using this outside of Circuits 101.
 
 ### Usage
 ```
@@ -45,13 +45,14 @@ Admittedly, it is good/quick enough to pick a few resistors and find their relev
 1. Compute the divider resistor ratio, `k`
 2. Constrain the resistor ratio to \(0,10\] using `log10`.
 3. Compute the error ratio error matrix, `d = rtable*k-rtable.T`
-4. Only look at the upper triangular portion of `d`
-5. Ignore 
-6. Construct the "best column" - for each row, find the column with least error (N sorts of N<100 floats)
-7. Find the "best row" - the row with least error in the "best column"
-8. The best column index gives R1, and the best row index gives R2
-9. Scale R1 by the the original `k` order of magnitude
-10. Print R1,R2
+4. Only look at the upper triangular portion of `d`, which is skew-symmetric
+5. Ignore positive, negative, or no error entries, depending on user input
+6. Convert to absolute error
+7. Construct the "best column" - for each row, find the column with least absolute error
+8. Find the "best row" - the row with least absolute error in the "best column"
+9. The best column index gives R1, and the best row index gives R2
+10. Scale R1 by the the original `k` order of magnitude
+11. Print R1,R2
 
 ### The Math
 Claim: Consider a solved minimum-error resistor ratio pair, R1 and R2. In implementation and in theory, if the ratio is multiplied by 10, the minimum-error R2 stays constant, and the minimum-error R1 is multiplied by 10. 
