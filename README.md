@@ -49,7 +49,7 @@ Admittedly, it is good/quick enough to pick a few resistors and find their relev
 8. Scale R1 by the the original `k` order of magnitude
 9. Print R1,R2
 
-## The Math
+### The Math
 Claim: Consider a solved resistor ratio pair, R1 and R2. In implementation and in theory, if the ratio is multiplied by 10, the optimal R2 stays constant, and the optimal R1 is multiplied by 10. 
 
 Proof:
@@ -60,6 +60,10 @@ Proof:
 2. As for practice, resistor values come in "decades," or multiples of 10. For every resistor value listed in a table, a resistor with the same coefficient, but a different order of magnitude is available, e.g. 1.2->12->120->0.0012->etc. Such is the wonder of standard resistor tables.
 
 Corollary: Any optimal accuracy voltage divider problem can be solved using only the coefficient of the desired resistor ratio represented in scientific notation without loss of generality.
+
+## Acknowledgements
+The resistor values used in this CLI were downloaded and regex'd from [this circuits-notes.com article](https://www.electronics-notes.com/articles/electronic_components/resistors/standard-resistor-values-e-series-e3-e6-e12-e24-e48-e96.php). Although resistor tables are standardized, the article embedded the values in an html table, which made automating input very easy.
+
 
 ## License
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more details.
